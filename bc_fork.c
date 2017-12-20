@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int main(int argc, char* argv[]){
   int *upstream,*downstream;
@@ -10,7 +11,8 @@ int main(int argc, char* argv[]){
   
   if(fork() != 0){ //parent
     close(upstream[1]); close(downstream[0]);
-    write(downstream,argv[1],1024);
+    write(downstream[1],argv[1],strlen(argv[1]));
+    write(downstream[1],"\n",1);
     close(downstream[1]);
     int byread = read(upstream[0],res,1024);
     printf("Das Ergebnis ist: %s",res);
